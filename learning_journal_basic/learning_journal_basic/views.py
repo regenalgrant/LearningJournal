@@ -1,14 +1,28 @@
-from pyramid.response import Response
-import os
+"""presenting view to the user in a human readable format."""
+from pyramid.view import view_config
 
-HERE = os.path.dirname(__file__)
+ENTRIES = [
+    {"title": "LJ - Day 10", "creation_date": "Aug 19, 2016", "id": 10, "body": "Sample body text."},
+    {"title": "LJ - Day 11", "creation_date": "Aug 22, 2016", "id": 11, "body": "Sample body text."},
+    {"title": "LJ - Day 12", "creation_date": "Aug 23, 2016", "id": 12, "body": "Sample body text."},
+]
 
+@view_config(route_name="home", renderer="templates/list.jinja2")
+def list_view(request):
+    return {}
 
+@view_config(route_name="detail", renderer="string")
+def detail_view(request):
+    return "detail view"
 
-def home_page(request):
-    imported_text = open(os.path.join(HERE, "sample.html")).read()
-    return Response(imported_text)
+@view_config(route_name="create", renderer="string")
+def create_view(request):
+    return "create view"
 
+@view_config(route_name="update", renderer="string")
+def update_view(request):
+    return "update_view"
 
-def includeme(config):
-    config.add_view(home_page, route_name="home")# add view takes two arguments/1view callable/2name of route
+@view_config(route_name='home', renderer='templates/list.jinja2')
+def list_view(request):
+    return {"entries": ENTRIES}
