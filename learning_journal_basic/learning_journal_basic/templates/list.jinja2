@@ -3,12 +3,18 @@
     <head></head>
     <body>
         <h1>Home Page</h1>
+        {% if entries %}
+            {% for entry in entries %}
                 <article>
-                    <h2>This is my LJ titile</h2>
+                    <h2><a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a></h2>
                     <hr />
-                    <p>Created today</p>
+                    <p>Created <strong>{{ entry.creation_date }}</strong></p>
                 </article>
+                {% for entry in entries %}
+            {% endfor %}
+        {% else %}
             <p>This journal is empty</p>
-        <footer></footer>
+        {% endif %}
+        <footer><a href="{{ request.route_url('home') }}">Home</a></footer>
     </body>
 </html>

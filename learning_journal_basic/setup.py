@@ -10,18 +10,28 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'pyramid',
+    'pyramid_jinja2',
     'pyramid_debugtoolbar',
+    'pyramid_tm',
+    'SQLAlchemy',
+    'transaction',
+    'zope.sqlalchemy',
     'waitress',
-    'pyramid_jinja2'
+    'psycopg2',
     ]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',  # includes virtualenv
     'pytest-cov',
-    'tox'
+    'pytest-watch',
+    'tox',
     ]
 
+development_extra = [
+    'ipython',
+    'pyramid_ipython'
+]
 setup(name='learning_journal_basic',
       version='0.0',
       description='learning_journal_basic',
@@ -45,6 +55,7 @@ setup(name='learning_journal_basic',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
-      main = learning_journal_basic:main
-      """,
+      main = learning_journal:main
+      [console_scripts]
+      initialize_db = learning_journal.scripts.initializedb:main""",
       )

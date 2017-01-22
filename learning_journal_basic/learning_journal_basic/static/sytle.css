@@ -1,0 +1,59 @@
+body {
+  position: relative;
+  background-color: white;
+  color: black;
+  padding-top: 30px;
+  padding-left: 15px;
+}
+
+.navbar-inverse {
+    background-color: #222;
+    border-color: #080808;
+    color: #9d9d9d;
+}
+
+.navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+    padding-top: 30px;
+}
+
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+main {
+  overflow: hidden;
+}
+
+main .container{
+  padding-top: 30px;
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+input {
+  margin: 15px;
+  margin-right: 15px;
+}
+
+textarea {
+  margin: 15px;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+  padding-left: 15px;
+}

@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <title>Python Learning Journal</title>
         <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <link href="{{ request.static_path('learning_journal_basic:static/style.css') }}" rel="stylesheet">
     </head>
 <body>
 <header>
@@ -19,7 +18,7 @@
 <main>
     <h1>My Python Journal</h1>
     <section id="content">
-        {% extends "layout.jinja2" %}{% block body %}{% endblock %}
+    {% extends "layout.jinja2" %}{% block body %}{% endblock %}
     </section>
 </main>
 </body>
