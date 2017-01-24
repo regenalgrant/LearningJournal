@@ -2,9 +2,9 @@
 from pyramid.view import view_config
 
 ENTRIES = [
-    {"title": "LJ - Day 10", "creation_date": "Aug 19, 2016", "id": 10, "body": "Sample body text."},
-    {"title": "LJ - Day 11", "creation_date": "Aug 22, 2016", "id": 11, "body": "Sample body text."},
-    {"title": "LJ - Day 12", "creation_date": "Aug 23, 2016", "id": 12, "body": "Sample body text."},
+    {"title": "Blog - Day 10", "creation_date": "Aug 19, 2016", "id": 10, "body": "Sample body text."},
+    {"title": "Blog - Day 11", "creation_date": "Aug 22, 2016", "id": 11, "body": "Sample body text."},
+    {"title": "Blog - Day 12", "creation_date": "Aug 23, 2016", "id": 12, "body": "Sample body text."},
 ]
 
 @view_config(route_name="home", renderer="templates/list.jinja2")

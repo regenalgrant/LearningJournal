@@ -1,12 +1,14 @@
 {% extends "layout.jinja2" %}
 {% block body %}
-        <h1>Home Page</h1>
+        <h3>Home Page</h3>
+                <div class="entry">
         {% if entries %}
             {% for entry in entries %}
                 <article>
-                    <h2><a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a></h2>
+                    <h2><input class="btn btn-default" type="submit" value="Enter"><a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a></h2>
                     <p>Created <strong>{{ entry.creation_date }}</strong></p>
                 </article>
+                </div>
             {% endfor %}
         {% else %}
             <p>This journal is empty</p>
