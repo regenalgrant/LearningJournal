@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head></head>
-    <body>
+{% extends "layout.jinja2" %}
+{% block body %}
         <h1>Home Page</h1>
         {% if entries %}
             {% for entry in entries %}
                 <article>
                     <h2><a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a></h2>
-                    <hr />
                     <p>Created <strong>{{ entry.creation_date }}</strong></p>
                 </article>
-                {% for entry in entries %}
             {% endfor %}
         {% else %}
             <p>This journal is empty</p>
         {% endif %}
-        <footer><a href="{{ request.route_url('home') }}">Home</a></footer>
-    </body>
-</html>
+{% endblock %}

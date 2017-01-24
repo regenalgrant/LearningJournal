@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-    <head></head>
+{% extends "layout.jinja2" %}
+{% block body %}
     <body>
         <article>
             <h1>{{ title }}</h1>
-            <hr />
             <p>Created <strong>{{ creation_date }}</strong></p>
-            <hr />
             <p>{{ body }}</p>
         </article>
     </body>
 </html>
+{% endblock %}

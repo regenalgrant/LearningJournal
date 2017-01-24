@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="{{ request.static_path('learning_journal_basic:static/sytle.css') }}" rel="stylesheet" type="text/css">
         <meta charset="utf-8">
         <title>Python Learning Journal</title>
         <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
 <body>
 <header>
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ request.route_url('home') }}">Home</a>
-            </li>
-        </ul>
+    <nav class="navbar">
+      <div class="btn-group">
+        <button type="button" class="btn btn-info btn-lg" href="{{ request.route_url('home') }}">Home</button>
+      </div>
     </nav>
 </header>
 <main>
-    <h1>My Python Journal</h1>
-    <section id="content">
-    {% extends "layout.jinja2" %}{% block body %}{% endblock %}
+    <h1>Regenal Grant</h1>
+    <h3>Blog Journal</h3>
+    <section>
+        {% block body %}{% endblock %}
     </section>
 </main>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 <footer>
     <p>Created in the Code Fellows 401 Python Program</p>

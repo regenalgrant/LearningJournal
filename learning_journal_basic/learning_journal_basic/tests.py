@@ -1,9 +1,7 @@
-# import unittest
-# # import pytest
-#
-# from pyramid import testing
-#
-#
+import pytest
+from pyramid import testing
+
+
 # class ViewTests(unittest.TestCase):
 #     def setUp(self):
 #         self.config = testing.setUp()
@@ -17,13 +15,13 @@
 #         info = my_view(request)
 #         self.assertEqual(info['project'], 'learning_journal_basic')
 
-#     def test_detail_view():
-#         """Test that what's returned by the view contains what we expect."""
-#         from .views import detail_view
-#         request = testing.DummyRequest()
-#         info = detail_view(request)
-#         assert "title" in info
-#
+def test_detail_view():
+    """Test that what's returned by the view contains what we expect."""
+    from .views import detail_view
+    request = testing.DummyRequest()
+    info = detail_view(request)
+    assert "title" in info
+
 # class FunctionalTests(unittest.TestCase):
 #     def setUp(self):
 #         from learning_journal_basic import main

@@ -10,14 +10,9 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'pyramid',
-    'pyramid_jinja2',
     'pyramid_debugtoolbar',
-    'pyramid_tm',
-    'SQLAlchemy',
-    'transaction',
-    'zope.sqlalchemy',
     'waitress',
-    'psycopg2',
+    'pyramid_jinja2'
     ]
 
 tests_require = [
@@ -55,7 +50,5 @@ setup(name='learning_journal_basic',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
-      main = learning_journal:main
-      [console_scripts]
-      initialize_db = learning_journal.scripts.initializedb:main""",
+      main = learning_journal_basic:main""",
       )

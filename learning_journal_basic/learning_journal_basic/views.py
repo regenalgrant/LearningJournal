@@ -8,25 +8,19 @@ ENTRIES = [
 ]
 
 @view_config(route_name="home", renderer="templates/list.jinja2")
-def detail_view(request):
-    return {
-        "title": "LJ - Day 12",
-        "creation_date": "Aug 23, 2016",
-        "body": "Sample body text."
-    }
+def list_view(request):
+    return {"entries": ENTRIES}
 
-@view_config(route_name="detail", renderer="string")
+@view_config(route_name="detail", renderer="templates/detail.jinja2")
 def detail_view(request):
-    return "detail view"
+    return {"title": "entry title",
+            "creation_date": "Jan",
+            "body": "this my body"}
 
-@view_config(route_name="create", renderer="string")
+@view_config(route_name="create", renderer="templates/create.jinja2")
 def create_view(request):
     return "create view"
 
-@view_config(route_name="update", renderer="string")
+@view_config(route_name="update", renderer="templates/update.jinja2")
 def update_view(request):
     return "update_view"
-
-@view_config(route_name='home', renderer='templates/list.jinja2')
-def list_view(request):
-    return {"entries": ENTRIES}
