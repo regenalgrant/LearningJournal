@@ -12,7 +12,12 @@ requires = [
     'pyramid',
     'pyramid_debugtoolbar',
     'waitress',
-    'pyramid_jinja2'
+    'pyramid_jinja2',
+    'pyramid_tm',
+    'SQLAlchemy',
+    'zope.sqlalchemy',
+
+
     ]
 
 tests_require = [
@@ -50,5 +55,7 @@ setup(name='learning_journal_basic',
       install_requires=requires,
       entry_points="""\
       [paste.app_factory]
-      main = learning_journal_basic:main""",
+      main = learning_journal_basic:main
+     [console_scripts]
+     initialize_db = learning_journal_basic.scripts.initializedb:main""",
       )

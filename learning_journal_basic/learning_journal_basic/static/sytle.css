@@ -7,7 +7,7 @@
   color: red;
 }
 
-.blog{
+main .blog{
     padding-left: 2em;
 }
 
@@ -22,22 +22,12 @@
     color: red;
     text-align: justify;
     background-color: black;
-    padding-bottom: 1em;
+    padding-bottom: 0em;
 }
 
 main{
-    padding-left: 0em;
     background-color: rgb(128, 153, 179);
-    padding-bottom: 12em;
-    max-height: inherit;
-}
-
-main h1{
-    color: white;
-    text-align: fixed;
-    background-color: rgb(128, 153, 179);
-    list-style-type: none;
-    padding-top: 5em;
+    padding-bottom: 9em;
 }
 
 main h3{

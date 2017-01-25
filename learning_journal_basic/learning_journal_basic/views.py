@@ -9,17 +9,18 @@ ENTRIES = [
 
 @view_config(route_name="home", renderer="templates/list.jinja2")
 def list_view(request):
+    """add DBquery Here."""
     return {"entries": ENTRIES}
 
 @view_config(route_name="detail", renderer="templates/detail.jinja2")
 def detail_view(request):
-    return {"title": "entry title",
-            "creation_date": "Jan",
-            "body": "this my body"}
+    entry_id = int(request.matchdict["id"])
+    entry = ENTRIES[entry_id]
+    return {"entry": entry}
 
 @view_config(route_name="create", renderer="templates/create.jinja2")
 def create_view(request):
-    return "create view"
+    return {}
 
 @view_config(route_name="update", renderer="templates/update.jinja2")
 def update_view(request):

@@ -1,0 +1,12 @@
+{% extends "layout.jinja2" %}
+{% block body %}
+  <form action="{{ request.route_url('create')}}" method="POST">
+    <div class="form-group col-sm-10">
+      <h2>Title</h2>
+      <input type="text" class="form-control" placeholder="input title">
+      <h2>Blog Entry</h2>
+      <textarea class="form-control" placeholder="blog input" rows="12">
+      </textarea>
+      <input class="btn btn-info btn-lg" type="submit" value="submit">
+    </div>
+  {% endblock %}

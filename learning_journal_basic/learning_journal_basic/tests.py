@@ -15,6 +15,13 @@ from pyramid import testing
 #         info = my_view(request)
 #         self.assertEqual(info['project'], 'learning_journal_basic')
 
+def test_list_view():
+    """Testing if list populates within the list view."""
+    from .views import list_view
+    request = testing.DummyRequest()
+    info = list_view(request)
+    assert "id" in info['entries'][2] 
+
 def test_detail_view():
     """Test that what's returned by the view contains what we expect."""
     from .views import detail_view
