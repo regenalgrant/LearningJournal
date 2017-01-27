@@ -1,4 +1,4 @@
-{% extends "layout.jinja2" %}
+{% extends "index.jinja2" %}
 {% block body %}
   <form action="{{ request.route_url('create')}}" method="POST">
     <div class="form-group col-sm-10">
@@ -9,4 +9,5 @@
       </textarea>
       <input class="btn btn-info btn-lg" type="submit" value="submit">
     </div>
+  </form>
   {% endblock %}

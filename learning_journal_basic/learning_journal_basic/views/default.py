@@ -1,19 +1,48 @@
 from pyramid.response import Response
 from pyramid.view import view_config
-
 from sqlalchemy.exc import DBAPIError
+from ..models import MyEntry
 
-from ..models import MyModel
 
+# @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
+# def my_view(request):
+#     try:
+#         query = request.dbsession.query(MyEntry)
+#         one = query.filter(MyEntry.title == "Learning Journal Daily Entry 1").first()
+#     except DBAPIError:
+#         return Response(db_err_msg, content_type='text/plain', status=500)
+#     return {'one': one, 'project': 'learning_journal_basic'}
 
-@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-def my_view(request):
-    try:
-        query = request.dbsession.query(MyModel)
-        one = query.filter(MyModel.name == 'one').first()
-    except DBAPIError:
-        return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'learning_journal_basic'}
+# """presenting view to the user in a human readable format."""
+# from pyramid.view import view_config
+#
+#
+@view_config(route_name="home", renderer="../templates/list.jinja2")
+def list_view(request):
+    """add DBquery Here."""
+    query = request.dbsession.query(MyEntry).order_by(
+        MyEntry.creation_date.desc()
+    )
+    entries = query.all()
+    return {"entries": entries}
+
+#
+# @view_config(route_name="detail", renderer="templates/detail.jinja2")
+# def detail_view(request):
+#     entry_id = int(request.matchdict["id"])
+#     entry = ENTRIES[entry_id]
+#     return {"entry": entry}
+#
+@view_config(route_name="create", renderer="../templates/create.jinja2")
+def create_view(request):
+    if request.method == "POST":
+        return {}
+    return {}
+#
+# @view_config(route_name="update", renderer="templates/update.jinja2")
+# def update_view(request):
+#     if request.methos == "GET"
+#     return "update_view"
 
 
 db_err_msg = """\
