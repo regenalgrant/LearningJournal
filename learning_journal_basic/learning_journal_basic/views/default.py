@@ -41,10 +41,21 @@ def create_view(request):
         return {}
     return {}
 
-# @view_config(route_name="update", renderer="../templates/update.jinja2")
-# def update_view(request):
-#     if request.methods == "GET":
-#     return "update_view"
+@view_config(route_name="update", renderer="../templates/update.jinja2")
+def update_view(request):
+    entry_id = int(request.matchdict["id"])
+    entry = request.dbsession.query(MyEntry).get(entry_id)
+    if entry is None:
+        raise HTTPNotFound
+    if request.method == "POST":
+            entry.title = request.POST["title"]
+            entry.blog_entry = request.POST["blog_entry"]
+            entry = MyEntry(
+            title=entry.title,
+            blog_entry=entry.blog_entry,
+            creation_date=entry.creation_date
+            )
+    return {"entry": entry}
 
 
 db_err_msg = """\

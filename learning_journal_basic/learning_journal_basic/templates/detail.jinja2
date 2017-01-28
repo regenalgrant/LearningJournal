@@ -6,7 +6,7 @@
             <p>Created <strong>{{ entry.creation_date }}</strong></p>
             <p>{{ entry.blog_entry }}</p>
             <p><a class="btn btn-info" href={{ request.route_url('update', id=entry.id) }}">Update</a>
+            </p>
         </article>
     </body>
-</html>
 {% endblock %}
