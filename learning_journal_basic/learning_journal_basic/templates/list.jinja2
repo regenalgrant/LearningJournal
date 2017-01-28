@@ -4,7 +4,6 @@
         {% if entries %}
             {% for entry in entries %}
                 <article>
-
                     <h2>
                       <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
                     </h2>

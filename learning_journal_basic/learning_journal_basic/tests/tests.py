@@ -1,63 +1,42 @@
 import pytest
+
 from pyramid import testing
+from .models import (
+    MyEntry,
+    get_engine,
+    get_session_factory,
+    get_tm_session
+    )
+from ..models.meta import Base
 
+@pytest.fixture(scope="session")
+def sqlengine(request):
+    config = testing.setUp(settings={
+        "sqlalchemy.url": "sqlite:///:memory:"
+    })
+    config.include("..models")
+    settings = config.get_settings()
+    engine = get_engine(settings)
+    Base.metadata.create_all(engine)
 
-# class ViewTests(unittest.TestCase):
-#     def setUp(self):
-#         self.config = testing.setUp()
-#
-#     def tearDown(self):
-#         testing.tearDown()
-#
-#     def test_my_view(self):
-#         from .views import my_view
-#         request = testing.DummyRequest()
-#         info = my_view(request)
-#         self.assertEqual(info['project'], 'learning_journal_basic')
+    def teardown():
+        testing.tearDown()
+        transaction.abort()
+        Base.metadata.drop_all(engine)
 
-def test_list_view():
-    """Testing if list populates within the list view."""
-    from .views import list_view
-    request = testing.DummyRequest()
-    info = list_view(request)
-    assert "id" in info['entries'][2] 
+    request.addfinalizer(teardown)
+    return engine
 
-def test_detail_view():
-    """Test that what's returned by the view contains what we expect."""
-    from .views import detail_view
-    request = testing.DummyRequest()
-    info = detail_view(request)
-    assert "title" in info
+@pytest.fixture(scope="function")
+def new_session(sqlengine, request):
+    session_factory = get_session_factory(sqlengine)
+    session = get_tm_seesion(session_factory, transaction.manager)
 
-# class FunctionalTests(unittest.TestCase):
-#     def setUp(self):
-#         from learning_journal_basic import main
-#         app = main({})
-#         from webtest import TestApp
-#         self.testapp = TestApp(app)
-#
-#     def test_root(self):
-#         res = self.testapp.get('/', status=200)
-#         self.assertTrue(b'Pyramid' in res.body)
-#
-#     @pytest.fixture()
-#     def testapp():
-#         """Create an instance of our app for testing."""
-#         from learning_journal_basic import main
-#         app = main({})
-#         from webtest import TestApp
-#         return TestApp(app)
-#
-#     def test_layout_root(testapp):
-#         """Test that the contents of the root page contains <article>."""
-#         response = testapp.get('/', status=200)
-#         html = response.html
-#         assert 'Created in the Code Fellows 401 Python Program' in html.find("footer").text
-#
-#     def test_root_contents(testapp):
-#         """Test that the contents of the root page contains as many <article> tags as journal entries."""
-#         from .views import ENTRIES
-#
-#         response = testapp.get('/', status=200)
-#         html = response.html
-#         assert len(ENTRIES) == len(html.findAll("article"))
+    def teardown():
+        transaction.abort()
+
+    request.addfinalizer(teardown)
+    return session
+
+def test_model_get_added(new_session):
+    assert len(new_session.query(MyEntry).all()) == 0

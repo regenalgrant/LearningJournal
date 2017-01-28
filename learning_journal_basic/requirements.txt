@@ -8,7 +8,6 @@ docopt==0.6.2
 ipython==5.1.0
 ipython-genutils==0.1.0
 Jinja2==2.9.4
--e git+https://github.com/regenalgrant/LearningJournal.git@34c3d4d69bea91b79f755f437ab5bc0b7eae5ca7#egg=learning_journal_basic&subdirectory=learning_journal_basic
 Mako==1.0.6
 MarkupSafe==0.23
 PasteDeploy==1.5.2
