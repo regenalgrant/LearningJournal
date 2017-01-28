@@ -2,6 +2,7 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 from ..models import MyEntry
+from pyramid.httpexceptions import HTTPNotFound
 
 
 # @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
@@ -26,22 +27,23 @@ def list_view(request):
     entries = query.all()
     return {"entries": entries}
 
-#
-# @view_config(route_name="detail", renderer="templates/detail.jinja2")
-# def detail_view(request):
-#     entry_id = int(request.matchdict["id"])
-#     entry = ENTRIES[entry_id]
-#     return {"entry": entry}
-#
+@view_config(route_name="detail", renderer="../templates/detail.jinja2")
+def detail_view(request):
+    entry_id = int(request.matchdict["id"])
+    entry = request.dbsession.query(MyEntry).get(entry_id)
+    if entry is None:
+        raise HTTPNotFound
+    return {"entry": entry}
+
 @view_config(route_name="create", renderer="../templates/create.jinja2")
 def create_view(request):
     if request.method == "POST":
         return {}
     return {}
-#
-# @view_config(route_name="update", renderer="templates/update.jinja2")
+
+# @view_config(route_name="update", renderer="../templates/update.jinja2")
 # def update_view(request):
-#     if request.methos == "GET"
+#     if request.methods == "GET":
 #     return "update_view"
 
 

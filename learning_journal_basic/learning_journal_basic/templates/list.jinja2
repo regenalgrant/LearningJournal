@@ -4,7 +4,8 @@
         {% if entries %}
             {% for entry in entries %}
                 <article>
-                    <h2><input class="btn btn-default" type="submit" value="Enter">
+
+                    <h2>
                       <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
                     </h2>
                     <p>Created <strong>{{ entry.creation_date }}</strong></p>

@@ -10,9 +10,10 @@
 <body>
 <header>
     <nav class="navbar">
-      <div class="btn-group">
-        <a type="button" class="btn btn-info btn-lg" href="{{ request.route_url('home') }}">Home</a>
-      </div>
+      <div class="btn-toolbar conatianer-fluid">
+          <a type="button" class="btn btn-info btn-lg navbar-brand" href="{{ request.route_url('home') }}">Home</a>
+          <a type="button" class="btn btn-info btn-lg navbar-brand" href="{{ request.route_url('create') }}">New Entry</a>
+    </div>
     </nav>
 </header>
 <main>

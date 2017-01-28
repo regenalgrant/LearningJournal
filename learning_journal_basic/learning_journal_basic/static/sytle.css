@@ -2,7 +2,9 @@
     padding-top: .75em;
     padding-left: 1em;
 }
-
+.btn{
+  margin-left: 10em;
+}
 .entry{
   color: red;
 }
