@@ -5,8 +5,9 @@ from .models import (
     MyEntry,
     get_engine,
     get_session_factory,
-    get_tm_session
+    get_tm_session,
     )
+import transaction
 from .models.meta import Base
 
 @pytest.fixture(scope="session")
@@ -30,7 +31,7 @@ def sqlengine(request):
 @pytest.fixture(scope="function")
 def new_session(sqlengine, request):
     session_factory = get_session_factory(sqlengine)
-    session = get_tm_seesion(session_factory, transaction.manager)
+    session = get_tm_session(session_factory, transaction.manager)
 
     def teardown():
         transaction.abort()
@@ -40,3 +41,5 @@ def new_session(sqlengine, request):
 
 def test_model_get_added(new_session):
     assert len(new_session.query(MyEntry).all()) == 0
+
+# def test_view
