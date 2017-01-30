@@ -7,14 +7,14 @@ from .models import (
     get_session_factory,
     get_tm_session
     )
-from ..models.meta import Base
+from .models.meta import Base
 
 @pytest.fixture(scope="session")
 def sqlengine(request):
     config = testing.setUp(settings={
         "sqlalchemy.url": "sqlite:///:memory:"
     })
-    config.include("..models")
+    config.include(".models")
     settings = config.get_settings()
     engine = get_engine(settings)
     Base.metadata.create_all(engine)
