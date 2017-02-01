@@ -6,5 +6,8 @@
             <p>Created <strong>{{ entry.creation_date }}</strong></p>
             <p>{{ entry.blog_entry }}</p>
         </article>
+        <div class="btn-toolbar conatianer-fluid">
+            <a type="button" class="btn btn-info btn-lg navbar-brand" href="{{ request.route_url('update', id=entry.id) }}">edit</a>
+      </div>
     </body>
 {% endblock %}

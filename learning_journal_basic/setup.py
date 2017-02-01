@@ -17,6 +17,9 @@ requires = [
     'SQLAlchemy',
     'transaction',
     'zope.sqlalchemy',
+    'faker',
+    'ipython',
+    'pyramid-ipython'
     ]
 
 tests_require = [
@@ -24,7 +27,7 @@ tests_require = [
     'pytest',  # includes virtualenv
     'pytest-cov',
     'pytest-watch',
-    'tox',
+    'tox'
     ]
 
 development_extra = [
@@ -55,6 +58,6 @@ setup(name='learning_journal_basic',
       entry_points="""\
       [paste.app_factory]
       main = learning_journal_basic:main
-     [console_scripts]
-     initialize_db = learning_journal_basic.scripts.initializedb:main""",
+      [console_scripts]
+      initialize_db = learning_journal_basic.scripts.initializedb:main""",
       )
