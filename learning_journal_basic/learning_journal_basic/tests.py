@@ -22,6 +22,26 @@ ENTRIES = [MyEntry(
     creation_date=datetime.utcnow()
     )
         for i in range(3)]
+#-------------credit to nickhunt for db session fixture------------------
+# @pytest.fixture
+# def db_session(configuration, request):
+#     """Create a session for interacting with the test database.
+#     This uses the dbsession_factory on the configurator instance to create a
+#     new database session. It binds that session to the available engine
+#     and returns a new session for every call of the dummy_request object.
+#     """
+#     SessionFactory = configuration.registry['dbsession_factory']
+#     session = SessionFactory()
+#     engine = session.bind
+#     Base.metadata.create_all(engine)
+#
+#     def teardown():
+#         session.transaction.rollback()
+#         Base.metadata.drop_all(engine)
+#
+#     request.addfinalizer(teardown)
+#     return session
+
 
 @pytest.fixture(scope="function")
 def sqlengine(request):
@@ -49,6 +69,8 @@ def dummy_request(new_session):
     """creating a dummy request."""
     d_request = testing.DummyRequest(dbsession=new_session)
     return d_request
+
+#------------------unittest-------------------------
 
 def test_list_view(dummy_request, new_session):
     """Test list view returns my entry titles."""
@@ -81,6 +103,16 @@ def test_create_view(dummy_request):
     from .views.default  import create_view
     response = create_view(dummy_request)
     assert response == {}
+
+def test_create_page_takes_user_input(dummy_request):
+    """Testing create page returns user input."""
+    from .views.default import create_view
+    dummy_request.method = 'POST' #making post request
+    dummy_request.POST['title'] = "title" #setting info that user is posting
+    dummy_request.POST['blog_entry'] = "blog_entry" #setting info that user is posting
+    response = create_view(dummy_request) #calling create view function passing it your updated dummy request
+    query = new_session.query(MyEntry).first()#give me 1st item in database(query)
+    assert query.title == "title" #saying that that info we got back from db includes the attribut title
 
 def test_update_view(dummy_request, new_session):
     """Test update view return blog entry."""
@@ -130,7 +162,6 @@ def new_session(testapp, request):
         transaction.abort()
     request.addfinalizer(teardown)
     return session
-
 #----------------------  functional tests --------------------
 def test_home_page_returns_list(testapp, fill_db):
     """Testing for titles."""
@@ -143,6 +174,12 @@ def test_detail_page_returns_single_entry(testapp, new_session):
     response = testapp.get("/journal/1", status=200)
     entry = new_session.query(MyEntry).get(1)
     assert entry.blog_entry in response.text
+
+def test_detail_page_not_found(testapp, new_session):
+    """Testing for a 404 page."""
+    response = testapp.get("/journal/40", status=404)
+    entry = new_session.query(MyEntry).get(40)
+    assert "Page Not Found" in response.text
 
 def test_create_page_returns_textarea(testapp):
     """Testing create page returns textarea."""
