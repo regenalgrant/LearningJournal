@@ -1,5 +1,6 @@
 import pytest
 import transaction
+import os
 import faker
 import random
 from pyramid import testing
@@ -24,11 +25,19 @@ ENTRIES = [MyEntry(
     )
         for i in range(3)]
 
+DB_SETTINGS = "sqlite:///:memory:" #setting DB (gloBAL VARIBLE)
+
+@pytest.fixture(scope="session")
+def setup_test_env():
+    os.environ[ #telling where the database_url test is
+        "DATABASE_URL"
+        ] = "sqlite:///:memory:"
 
 @pytest.fixture(scope="function")
 def sqlengine(request):
     config = testing.setUp(settings={
-        "sqlalchemy.url": "sqlite:///:memory:"
+        "sqlalchemy.url": DB_SETTINGS
+        # "sqlite:///:memory:"
     })
     config.include(".models")
     config.include(".routes")
@@ -143,7 +152,7 @@ def test_update_view(dummy_request, new_session):
     assert response['entry'].blog_entry == "update sexting"
 
 @pytest.fixture(scope="session")
-def testapp(request):
+def testapp(request, setup_test_env):
     from webtest import TestApp
     from learning_journal_basic import main
     app = main({}, **{"sqlalchemy.url": "sqlite:///:memory:"})
@@ -184,8 +193,9 @@ def test_home_page_returns_list(testapp, fill_db):
     body = response.body.decode('utf-8')
     assert body.count("<h2>") == 4
 
-def test_detail_page_returns_single_entry(testapp, new_session2):
+def test_detail_page_returns_single_entry(testapp, fill_db, new_session2):
     """Testing detail page returns a single entry."""
+
     response = testapp.get("/journal/1", status=200)
     entry = new_session2.query(MyEntry).get(1)
     assert entry.blog_entry in response.text
@@ -202,8 +212,8 @@ def test_create_page_returns_textarea(testapp):
     body = response.body.decode('utf-8')
     assert body.find("</textarea>")
 
-def test_update_page_returns_entry_to_edit(testapp, new_session2):
-    """Test upsdate page returns an entry to be edited."""
+def test_update_page_returns_entry_to_edit(testapp, fill_db, new_session2):
+    """Test update page returns an entry to be edited."""
     response = testapp.get("/journal/1/edit-entry", status=200)
     entry = new_session2.query(MyEntry).get(1)
     assert entry.blog_entry in response.text
