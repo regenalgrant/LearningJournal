@@ -19,7 +19,8 @@ requires = [
     'zope.sqlalchemy',
     'faker',
     'ipython',
-    'pyramid-ipython'
+    'pyramid-ipython',
+    'psycopg2'
     ]
 
 tests_require = [
