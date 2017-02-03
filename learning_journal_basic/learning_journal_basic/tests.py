@@ -11,6 +11,7 @@ from .models import (
     )
 from .models.meta import Base
 from datetime import datetime
+from pyramid.httpexceptions import HTTPNotFound
 
 TITLE = ["learning journal 1", "learning journal 2", "learning journal 3"]
 
@@ -22,25 +23,6 @@ ENTRIES = [MyEntry(
     creation_date=datetime.utcnow()
     )
         for i in range(3)]
-#-------------credit to nickhunt for db session fixture------------------
-# @pytest.fixture
-# def db_session(configuration, request):
-#     """Create a session for interacting with the test database.
-#     This uses the dbsession_factory on the configurator instance to create a
-#     new database session. It binds that session to the available engine
-#     and returns a new session for every call of the dummy_request object.
-#     """
-#     SessionFactory = configuration.registry['dbsession_factory']
-#     session = SessionFactory()
-#     engine = session.bind
-#     Base.metadata.create_all(engine)
-#
-#     def teardown():
-#         session.transaction.rollback()
-#         Base.metadata.drop_all(engine)
-#
-#     request.addfinalizer(teardown)
-#     return session
 
 
 @pytest.fixture(scope="function")
@@ -49,6 +31,7 @@ def sqlengine(request):
         "sqlalchemy.url": "sqlite:///:memory:"
     })
     config.include(".models")
+    config.include(".routes")
     settings = config.get_settings()
     engine = get_engine(settings)
     Base.metadata.create_all(engine)
@@ -60,6 +43,16 @@ def sqlengine(request):
 
     request.addfinalizer(teardown)
     return engine
+
+@pytest.fixture(scope="function")
+def new_session(sqlengine, request):
+    session_factory = get_session_factory(sqlengine)
+    session = get_tm_session(session_factory, transaction.manager)
+
+    def teardown():
+        transaction.abort()
+    request.addfinalizer(teardown)
+    return session
 
 def test_model_get_added(new_session):
     assert len(new_session.query(MyEntry).all()) == 0
@@ -104,15 +97,37 @@ def test_create_view(dummy_request):
     response = create_view(dummy_request)
     assert response == {}
 
-def test_create_page_takes_user_input(dummy_request):
+def test_create_page_takes_user_input(new_session, dummy_request):
     """Testing create page returns user input."""
     from .views.default import create_view
     dummy_request.method = 'POST' #making post request
     dummy_request.POST['title'] = "title" #setting info that user is posting
     dummy_request.POST['blog_entry'] = "blog_entry" #setting info that user is posting
-    response = create_view(dummy_request) #calling create view function passing it your updated dummy request
+    create_view(dummy_request) #calling create view function passing it your updated dummy request
     query = new_session.query(MyEntry).first()#give me 1st item in database(query)
     assert query.title == "title" #saying that that info we got back from db includes the attribut title
+
+def test_update_view_error_when_no_entry(dummy_request):
+    """Ensuring error when no entry found."""
+    from .views.default import update_view
+    dummy_request.matchdict = {"id": 1}
+    with pytest.raises(HTTPNotFound):
+        update_view(dummy_request)
+
+def test_update_view_takes_changes(new_session, dummy_request):
+    """Testing update view take change."""
+    from .views.default import update_view
+    new_session.add(MyEntry(
+        title="original title",
+        blog_entry="original entry"
+    ))
+    new_session.flush()
+    dummy_request.method = 'POST'
+    dummy_request.POST['blog_entry'] = "blog_entry"
+    dummy_request.POST['title'] = "title"
+    dummy_request.matchdict = {"id": 1}
+    response = update_view(dummy_request)
+    assert response.status_code == 302
 
 def test_update_view(dummy_request, new_session):
     """Test update view return blog entry."""
@@ -154,7 +169,7 @@ def fill_db(testapp):
     return dbsession
 
 @pytest.fixture(scope="function")
-def new_session(testapp, request):
+def new_session2(testapp, request):
     SessionFactory = testapp.app.registry["dbsession_factory"]
     with transaction.manager:
         session = get_tm_session(SessionFactory, transaction.manager)
@@ -169,16 +184,16 @@ def test_home_page_returns_list(testapp, fill_db):
     body = response.body.decode('utf-8')
     assert body.count("<h2>") == 4
 
-def test_detail_page_returns_single_entry(testapp, new_session):
+def test_detail_page_returns_single_entry(testapp, new_session2):
     """Testing detail page returns a single entry."""
     response = testapp.get("/journal/1", status=200)
-    entry = new_session.query(MyEntry).get(1)
+    entry = new_session2.query(MyEntry).get(1)
     assert entry.blog_entry in response.text
 
-def test_detail_page_not_found(testapp, new_session):
+def test_detail_page_not_found(testapp, new_session2):
     """Testing for a 404 page."""
     response = testapp.get("/journal/40", status=404)
-    entry = new_session.query(MyEntry).get(40)
+    entry = new_session2.query(MyEntry).get(40)
     assert "Page Not Found" in response.text
 
 def test_create_page_returns_textarea(testapp):
@@ -187,8 +202,8 @@ def test_create_page_returns_textarea(testapp):
     body = response.body.decode('utf-8')
     assert body.find("</textarea>")
 
-def test_update_page_returns_entry_to_edit(testapp, new_session):
+def test_update_page_returns_entry_to_edit(testapp, new_session2):
     """Test upsdate page returns an entry to be edited."""
     response = testapp.get("/journal/1/edit-entry", status=200)
-    entry = new_session.query(MyEntry).get(1)
+    entry = new_session2.query(MyEntry).get(1)
     assert entry.blog_entry in response.text

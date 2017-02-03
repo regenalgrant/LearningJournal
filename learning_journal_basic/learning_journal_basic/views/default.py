@@ -2,7 +2,8 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 from ..models import MyEntry
-from pyramid.httpexceptions import HTTPNotFound, HTTPFound
+from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPFound
 from datetime import datetime
 
 
