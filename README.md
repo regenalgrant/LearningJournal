@@ -27,9 +27,44 @@
 
 ## Coverage Reports  
 
-### coverage report step1  
-
 ### coverage report step2  
+
+---------- coverage: platform darwin, python 2.7.10-final-0 ----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+learning_journal_basic/__init__.py               9      0   100%
+learning_journal_basic/models/__init__.py       22      0   100%
+learning_journal_basic/models/meta.py            5      0   100%
+learning_journal_basic/models/mymodel.py         8      0   100%
+learning_journal_basic/routes.py                 5      0   100%
+learning_journal_basic/scripts/__init__.py       0      0   100%
+learning_journal_basic/scripts/entry.py          1      0   100%
+learning_journal_basic/views/__init__.py         0      0   100%
+learning_journal_basic/views/default.py         30      6    80%   35, 41, 49, 51-53
+learning_journal_basic/views/notfound.py         4      2    50%   6-7
+--------------------------------------------------------------------------
+TOTAL                                           84      8    90%
+
+9 passed in 1.81 seconds
+
+
+---------- coverage: platform darwin, python 3.5.2-final-0 -----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+learning_journal_basic/__init__.py               9      0   100%
+learning_journal_basic/models/__init__.py       22      0   100%
+learning_journal_basic/models/meta.py            5      0   100%
+learning_journal_basic/models/mymodel.py         8      0   100%
+learning_journal_basic/routes.py                 5      0   100%
+learning_journal_basic/scripts/__init__.py       0      0   100%
+learning_journal_basic/scripts/entry.py          1      0   100%
+learning_journal_basic/views/__init__.py         0      0   100%
+learning_journal_basic/views/default.py         30      6    80%   35, 41, 49, 51-53
+learning_journal_basic/views/notfound.py         4      2    50%   6-7
+--------------------------------------------------------------------------
+TOTAL                                           84      8    90%
+
+9 passed in 2.29 seconds
 
 ### coverage report step3
 
