@@ -29,6 +29,40 @@
 
 ### coverage report step1
 
+---------- coverage: platform darwin, python 2.7.10-final-0 ----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+learning_journal_basic/__init__.py               9      7    22%   7-13
+learning_journal_basic/models/__init__.py       22      0   100%
+learning_journal_basic/models/meta.py            5      0   100%
+learning_journal_basic/models/mymodel.py         8      0   100%
+learning_journal_basic/routes.py                 5      5     0%   1-6
+learning_journal_basic/scripts/__init__.py       0      0   100%
+learning_journal_basic/views/__init__.py         0      0   100%
+learning_journal_basic/views/default.py         30      6    80%   35, 41, 49, 51-53
+learning_journal_basic/views/notfound.py         4      4     0%   1-7
+--------------------------------------------------------------------------
+TOTAL                                           83     22    73%
+
+5 passed in 1.43 seconds
+
+---------- coverage: platform darwin, python 3.5.2-final-0 -----------
+Name                                         Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------
+learning_journal_basic/__init__.py               9      7    22%   7-13
+learning_journal_basic/models/__init__.py       22      0   100%
+learning_journal_basic/models/meta.py            5      0   100%
+learning_journal_basic/models/mymodel.py         8      0   100%
+learning_journal_basic/routes.py                 5      5     0%   1-6
+learning_journal_basic/scripts/__init__.py       0      0   100%
+learning_journal_basic/views/__init__.py         0      0   100%
+learning_journal_basic/views/default.py         30      6    80%   35, 41, 49, 51-53
+learning_journal_basic/views/notfound.py         4      4     0%   1-7
+--------------------------------------------------------------------------
+TOTAL                                           83     22    73%
+
+5 passed in 1.23 seconds
+
 ### coverage report step2  
 
 ---------- coverage: platform darwin, python 2.7.10-final-0 ----------
