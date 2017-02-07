@@ -1,0 +1,16 @@
+{% extends "index.jinja2" %}
+{% block body %}
+        <h3>Home Page</h3>
+        {% if entries %}
+            {% for entry in entries %}
+                <article>
+                    <h2>
+                      <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
+                    </h2>
+                    <p>Created <strong>{{ entry.creation_date }}</strong></p>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p>This journal is empty</p>
+        {% endif %}
+{% endblock %}

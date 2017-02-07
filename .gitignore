@@ -89,9 +89,8 @@ bin/
 # Rope project settings
 .ropeproject
 
-# more stuff 
+# more stuff
 pyvenv.cfg
 */.pyc
 pip-selfcheck.json
-
-
+.DS_Store
