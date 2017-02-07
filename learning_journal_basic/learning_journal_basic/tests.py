@@ -29,6 +29,9 @@ ENTRIES = [MyEntry(
 DB_SETTINGS = "sqlite:///:memory:"  # setting DB (gloBAL VARIBLE)
 
 
+# ------------------fixtures---------------------
+
+
 @pytest.fixture(scope="session")
 def setup_test_env():
     os.environ[  # telling where the database_url test is
@@ -78,6 +81,47 @@ def dummy_request(new_session):
     d_request = testing.DummyRequest(dbsession=new_session)
     return d_request
 
+
+@pytest.fixture(scope="session")
+def testapp(request, setup_test_env):
+    from webtest import TestApp
+    from learning_journal_basic import main
+    app = main({}, **{"sqlalchemy.url": "sqlite:///:memory:"})
+    testapp = TestApp(app)
+
+    SessionFactory = app.registry["dbsession_factory"]
+    engine = SessionFactory().bind
+    Base.metadata.create_all(bind=engine)
+
+    def tearDown():
+        Base.metadata.drop_all(bind=engine)
+
+    request.addfinalizer(tearDown)
+    return testapp
+
+
+@pytest.fixture(scope="session")
+def fill_db(testapp):
+    SessionFactory = testapp.app.registry["dbsession_factory"]
+    with transaction.manager:
+        dbsession = get_tm_session(SessionFactory, transaction.manager)
+        dbsession.add_all(ENTRIES)
+
+    return dbsession
+
+
+@pytest.fixture(scope="function")
+def new_session2(testapp, request):
+    SessionFactory = testapp.app.registry["dbsession_factory"]
+    with transaction.manager:
+        session = get_tm_session(SessionFactory, transaction.manager)
+
+    def teardown():
+        transaction.abort()
+    request.addfinalizer(teardown)
+    return session
+
+
 # ------------------unittest-------------------------
 
 
@@ -123,7 +167,7 @@ def test_create_page_takes_user_input(new_session, dummy_request):
     dummy_request.POST['title'] = "title"  # setting info that user is posting
     dummy_request.POST['blog_entry'] = "blog_entry"  # setting info that user is posting
     create_view(dummy_request)  # calling create view function passing it your updated dummy request
-    query = new_session.query(MyEntry).first()# give me 1st item in database(query)
+    query = new_session.query(MyEntry).first()  # give me 1st item in database(query)
     assert query.title == "title"  # saying that that info we got back from db includes the attribut title
 
 
@@ -163,46 +207,6 @@ def test_update_view(dummy_request, new_session):
     dummy_request.matchdict = {"id": 1}
     response = update_view(dummy_request)
     assert response['entry'].blog_entry == "update sexting"
-
-
-@pytest.fixture(scope="session")
-def testapp(request, setup_test_env):
-    from webtest import TestApp
-    from learning_journal_basic import main
-    app = main({}, **{"sqlalchemy.url": "sqlite:///:memory:"})
-    testapp = TestApp(app)
-
-    SessionFactory = app.registry["dbsession_factory"]
-    engine = SessionFactory().bind
-    Base.metadata.create_all(bind=engine)
-
-    def tearDown():
-        Base.metadata.drop_all(bind=engine)
-
-    request.addfinalizer(tearDown)
-    return testapp
-
-
-@pytest.fixture(scope="session")
-def fill_db(testapp):
-    SessionFactory = testapp.app.registry["dbsession_factory"]
-    with transaction.manager:
-        dbsession = get_tm_session(SessionFactory, transaction.manager)
-        dbsession.add_all(ENTRIES)
-
-    return dbsession
-
-
-@pytest.fixture(scope="function")
-def new_session2(testapp, request):
-    SessionFactory = testapp.app.registry["dbsession_factory"]
-    with transaction.manager:
-        session = get_tm_session(SessionFactory, transaction.manager)
-
-    def teardown():
-        transaction.abort()
-    request.addfinalizer(teardown)
-    return session
 
 
 # ----------------------  functional tests --------------------#

@@ -1,4 +1,3 @@
-
 import os
 
 from setuptools import setup, find_packages
@@ -19,9 +18,6 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'faker',
-    'ipython',
-    'pyramid-ipython',
-    'psycopg2'
 ]
 
 tests_require = [
@@ -55,6 +51,7 @@ setup(name='learning_journal_basic',
       zip_safe=False,
       extras_require={
           'testing': tests_require,
+          'developer': development_extra,
       },
       install_requires=requires,
       entry_points="""\
