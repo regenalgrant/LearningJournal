@@ -17,7 +17,7 @@ requires = [
     'SQLAlchemy',
     'transaction',
     'zope.sqlalchemy',
-    ]
+]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
@@ -25,7 +25,7 @@ tests_require = [
     'pytest-cov',
     'pytest-watch',
     'tox',
-    ]
+]
 
 development_extra = [
     'ipython',
@@ -50,6 +50,7 @@ setup(name='learning_journal_basic',
       zip_safe=False,
       extras_require={
           'testing': tests_require,
+          'developer': development_extra
       },
       install_requires=requires,
       entry_points="""\
