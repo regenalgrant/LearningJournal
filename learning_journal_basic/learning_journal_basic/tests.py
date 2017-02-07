@@ -1,3 +1,4 @@
+"""UnitTesting."""
 import pytest
 import transaction
 from pyramid import testing
@@ -6,12 +7,14 @@ from .models import (
     get_engine,
     get_session_factory,
     get_tm_session,
-    )
+)
 from .models.meta import Base
 from datetime import datetime
 
+
 @pytest.fixture(scope="function")
 def sqlengine(request):
+    """Setting up sql engine."""
     config = testing.setUp(settings={
         "sqlalchemy.url": "sqlite:///:memory:"
     })
@@ -28,8 +31,10 @@ def sqlengine(request):
     request.addfinalizer(teardown)
     return engine
 
+
 @pytest.fixture(scope="function")
 def new_session(sqlengine, request):
+    """Creating New Session."""
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
 
@@ -38,8 +43,10 @@ def new_session(sqlengine, request):
     request.addfinalizer(teardown)
     return session
 
+
 @pytest.fixture(scope="function")
 def populate_db(request, sqlengine):
+    """Populate Data Base."""
     session_factory = get_session_factory(sqlengine)
     session = get_tm_session(session_factory, transaction.manager)
 
@@ -49,20 +56,25 @@ def populate_db(request, sqlengine):
             creation_date=datetime.utcnow(),
             blog_entry="blog_entry"
         ))
+
     def teardown():
         with transaction.manager:
             session.query(MyEntry).delete()
 
     request.addfinalizer(teardown)
 
+
 def test_model_get_added(new_session):
+    """Ensuring Data base is empty on new session."""
     assert len(new_session.query(MyEntry).all()) == 0
+
 
 @pytest.fixture()
 def dummy_request(new_session):
-    """creating a dummy request."""
+    """Creating a dummy request."""
     d_request = testing.DummyRequest(dbsession=new_session)
     return d_request
+
 
 def test_list_view(dummy_request, new_session):
     """Test list view returns my entry titles."""
@@ -74,7 +86,9 @@ def test_list_view(dummy_request, new_session):
     ))
     new_session.flush()
     response = list_view(dummy_request)
+
     assert response['entries'][0].title == "testing title"
+
 
 def test_detail_view(new_session):
     """Test detail view return blog entry."""
@@ -90,11 +104,13 @@ def test_detail_view(new_session):
     response = detail_view(req)
     assert response['entry'].blog_entry == "test blog entry"
 
+
 def test_create_view(dummy_request):
     """Test create view returning an empty dictionary."""
-    from .views.default  import create_view
+    from .views.default import create_view
     response = create_view(dummy_request)
     assert response == {}
+
 
 def test_update_view(dummy_request, new_session):
     """Test update view return blog entry."""

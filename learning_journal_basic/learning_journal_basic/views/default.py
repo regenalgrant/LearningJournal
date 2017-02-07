@@ -1,48 +1,40 @@
-from pyramid.response import Response
+"""Setting up views."""
 from pyramid.view import view_config
-from sqlalchemy.exc import DBAPIError
 from ..models import MyEntry
 from pyramid.httpexceptions import HTTPNotFound
 
 
-# @view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-# def my_view(request):
-#     try:
-#         query = request.dbsession.query(MyEntry)
-#         one = query.filter(MyEntry.title == "Learning Journal Daily Entry 1").first()
-#     except DBAPIError:
-#         return Response(db_err_msg, content_type='text/plain', status=500)
-#     return {'one': one, 'project': 'learning_journal_basic'}
-
-# """presenting view to the user in a human readable format."""
-# from pyramid.view import view_config
-#
-#
 @view_config(route_name="home", renderer="../templates/list.jinja2")
 def list_view(request):
-    """add DBquery Here."""
+    """Creating list views."""
     query = request.dbsession.query(MyEntry).order_by(
         MyEntry.creation_date.desc()
     )
     entries = query.all()
     return {"entries": entries}
 
+
 @view_config(route_name="detail", renderer="../templates/detail.jinja2")
 def detail_view(request):
+    """Creating detail view."""
     entry_id = int(request.matchdict["id"])
     entry = request.dbsession.query(MyEntry).get(entry_id)
     if entry is None:
         raise HTTPNotFound
     return {"entry": entry}
 
+
 @view_config(route_name="create", renderer="../templates/create.jinja2")
 def create_view(request):
+    """Making a create view."""
     if request.method == "POST":
         return {}
     return {}
 
+
 @view_config(route_name="update", renderer="../templates/update.jinja2")
 def update_view(request):
+    """Creating an Update view."""
     entry_id = int(request.matchdict["id"])
     entry = request.dbsession.query(MyEntry).get(entry_id)
     if entry is None:
@@ -51,9 +43,9 @@ def update_view(request):
             entry.title = request.POST["title"]
             entry.blog_entry = request.POST["blog_entry"]
             entry = MyEntry(
-            title=entry.title,
-            blog_entry=entry.blog_entry,
-            creation_date=entry.creation_date
+                title=entry.title,
+                blog_entry=entry.blog_entry,
+                creation_date=entry.creation_date
             )
     return {"entry": entry}
 

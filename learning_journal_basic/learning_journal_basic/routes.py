@@ -1,3 +1,6 @@
+"""Routing."""
+
+
 def includeme(config):
     """Add routes to pyramid configurator."""
     config.add_route('home', '/')
