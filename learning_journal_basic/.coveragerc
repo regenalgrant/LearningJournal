@@ -1,3 +1,6 @@
 [run]
 source = learning_journal_basic
-omit = learning_journal_basic/test*
+omit =
+  learning_journal_basic/test*
+  learning_journal_basic/scripts/initializedb.py
+  learning_journal_basic/scripts/entry.py
