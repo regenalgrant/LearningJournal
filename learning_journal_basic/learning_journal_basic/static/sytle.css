@@ -1,0 +1,57 @@
+.navbar{
+    padding-top: .75em;
+    padding-left: 1em;
+}
+.btn{
+  margin-left: 10em;
+}
+.entry{
+  color: red;
+}
+
+main .blog{
+    padding-left: 2em;
+}
+
+.bj{
+  text-align: center;
+    font-size: 4em;
+    padding-left: 1em;
+}
+.name h1{
+    padding-top: 1em;
+    padding-left: 1em;
+    color: red;
+    text-align: justify;
+    background-color: black;
+
+}
+
+main{
+    background-color: rgb(128, 153, 179);
+    padding-bottom: 9em;
+}
+
+main h3{
+    color: rgb(192, 204, 216);
+    text-align: left;
+    list-style-type: none;
+    padding-top: 0em;
+}
+section a: hover{
+    color: blue;
+    padding-right:9em;
+    text-decoration: none;
+}
+
+header{
+    padding-left: 1em;
+    width: 100%;
+    color: green;
+}
+
+footer{
+    width: 100%;
+    text-align: center;
+    padding-top: 0em;
+}

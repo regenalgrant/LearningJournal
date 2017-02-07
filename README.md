@@ -1,1 +1,61 @@
-# LearningJournal
+# LearningJournal  
+## Getting Started
+
+- git clone repo
+- $VENV/bin/activate
+- cd LearningJournal/learning_journal_basic
+- pip install -e .
+- pserve development.ini
+
+## Navigating
+
+- path to get to home page --> /
+- path to get to detail page --> /journal/{id:\d+}
+- path to get to create page --> /journal/new-entry
+- path to get to update page --> /journal/{id:\d+}/edit-entry
+
+## Links
+
+- Home button is located on each page, returns to lists view.
+- New-entry button is located on each page, returns to create view.
+- title are links that take you to the detail page
+
+
+## coverage report step3
+
+            ---------- coverage: platform darwin, python 2.7.10-final-0 ----------
+            Name                                         Stmts   Miss  Cover   Missing
+            --------------------------------------------------------------------------
+            learning_journal_basic/__init__.py               9      0   100%
+            learning_journal_basic/models/__init__.py       22      0   100%
+            learning_journal_basic/models/meta.py            5      0   100%
+            learning_journal_basic/models/mymodel.py         8      0   100%
+            learning_journal_basic/routes.py                 5      0   100%
+            learning_journal_basic/scripts/__init__.py       0      0   100%
+            learning_journal_basic/scripts/entry.py          1      0   100%
+            learning_journal_basic/views/__init__.py         0      0   100%
+            learning_journal_basic/views/default.py         38      0   100%
+            learning_journal_basic/views/notfound.py         4      0   100%
+            --------------------------------------------------------------------------
+            TOTAL                                           92      0   100%
+
+            13 passed in 2.33 seconds
+
+
+            ---------- coverage: platform darwin, python 3.5.2-final-0 -----------
+            Name                                         Stmts   Miss  Cover   Missing
+            --------------------------------------------------------------------------
+            learning_journal_basic/__init__.py               9      0   100%
+            learning_journal_basic/models/__init__.py       22      0   100%
+            learning_journal_basic/models/meta.py            5      0   100%
+            learning_journal_basic/models/mymodel.py         8      0   100%
+            learning_journal_basic/routes.py                 5      0   100%
+            learning_journal_basic/scripts/__init__.py       0      0   100%
+            learning_journal_basic/scripts/entry.py          1      0   100%
+            learning_journal_basic/views/__init__.py         0      0   100%
+            learning_journal_basic/views/default.py         38      0   100%
+            learning_journal_basic/views/notfound.py         4      0   100%
+            --------------------------------------------------------------------------
+            TOTAL                                           92      0   100%
+
+            13 passed in 2.79 seconds
