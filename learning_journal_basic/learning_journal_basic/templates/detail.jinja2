@@ -1,0 +1,10 @@
+{% extends "index.jinja2" %}
+{% block body %}
+    <body>
+        <article>
+            <h1>{{ entry.title }}</h1>
+            <p>Created <strong>{{ entry.creation_date }}</strong></p>
+            <p>{{ entry.blog_entry }}</p>
+        </article>
+    </body>
+{% endblock %}
