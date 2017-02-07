@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-cd learning_journal_basic
-python setup.py develop
-python runapp.py
