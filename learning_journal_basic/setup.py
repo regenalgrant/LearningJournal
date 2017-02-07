@@ -1,3 +1,4 @@
+
 import os
 
 from setuptools import setup, find_packages
@@ -21,7 +22,7 @@ requires = [
     'ipython',
     'pyramid-ipython',
     'psycopg2'
-    ]
+]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
@@ -29,7 +30,7 @@ tests_require = [
     'pytest-cov',
     'pytest-watch',
     'tox'
-    ]
+]
 
 development_extra = [
     'ipython',
